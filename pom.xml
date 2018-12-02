@@ -1,15 +1,41 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>cc.co.llabor</groupId>
-	<artifactId>snmp123</artifactId>
 	<name>Westhawk SNMP</name>
+	<url>https://github.com/bartoszm/snmp123</url>
+	<licenses>
+		<license>
+			<name>GNU Lesser GPL</name>
+			<url>https://www.gnu.org/licenses/lgpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://code.google.com/archive/p/snmp123/</url>
+	</scm>
+	<developers>
+		<developer>
+			<url>https://github.com/bartoszm</url>
+		</developer>
+		<developer>
+			<url>https://code.google.com/archive/p/snmp123/</url>
+		</developer>
+	</developers>
+	<groupId>com.github.komcrad</groupId>
+	<artifactId>snmp123</artifactId>
 	<version>6.1</version>
 	<description>
-		Westhawk lightweight SNMP stack in Java, with Java application
-		and servlet examples.
+		Westhawk lightweight SNMP stack in Java, with Java application and servlet examples.
 	</description>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -17,21 +43,78 @@
 				<directory>resources</directory>
 			</resource>
 		</resources>
-		<outputDirectory>bin</outputDirectory>
-
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<configuration>
+					<message>Created site for ${project.version}</message>
+					<path>maven-site</path>
+					<server>github</server>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>site</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 	<dependencies>
-<dependency>
-    <groupId>org.prefuse</groupId>
-    <artifactId>prefuse</artifactId>
-    <version>beta-20060220</version>
-</dependency>	
+		<dependency>
+			<groupId>org.prefuse</groupId>
+			<artifactId>prefuse</artifactId>
+			<version>beta-20060220</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>netscape</groupId>
 			<artifactId>tools</artifactId>
@@ -39,9 +122,8 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/plugin.jar</systemPath>
 		</dependency>
-		
-		
-		<!-- tablelayout.jar  -->
+
+		<!-- tablelayout.jar -->
 		<dependency>
 			<groupId>tablelayout</groupId>
 			<artifactId>tablelayout</artifactId>
@@ -49,7 +131,7 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/tablelayout.jar</systemPath>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>
